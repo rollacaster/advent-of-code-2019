@@ -1,4 +1,4 @@
-(ns advent-of-code.core
+(ns advent-of-code.day-1
   (:require [clojure.string :as s]))
 
 (defn calculate-fuel [mass]
@@ -17,5 +17,8 @@
      (+ total-fuel (calculate-fuel-2 (Integer/parseInt mass))))
    0
    (s/split-lines (slurp "resources/input.txt"))))
+
+(defn run []
+  (calculate-total-fuel))
 
 

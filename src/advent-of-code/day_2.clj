@@ -7,6 +7,17 @@
         op (if (= opcode 1) + *)]
     (assoc program target (op n1 n2))))
 
+(defn compute [program]
+  (reduce
+   (fn [result idx]
+     (let [computation (nth (partition 4 result) idx)
+           opcode (first computation)]
+       (cond
+         (= opcode 99) result
+         :else (handle-op-code computation result))))
+   program
+   (range (Math/floor (/ (count program) 4)))))
+
 (defn prepare-data []
   (for [noun (range 100)
         verb (range 100)]
@@ -24,20 +35,6 @@
                 0))
         (println "noun" noun "verb" verb)))))
 
-(defn compute [program]
-  (reduce
-   (fn [result idx]
-     (let [computation (nth (partition 4 result) idx)
-           opcode (first computation)]
-       (cond
-         (= opcode 99) result
-         :else (handle-op-code computation result))))
-   program
-   (range (Math/floor (/ (count program) 4)))))
+(defn run []
+  (compute (prepare-data)))
 
-
-
-(compute [1 0 0 0 99])
-(compute [2 3 0 3 99])
-(compute [2 4 4 5 99 0])
-(compute [1 1 1 4 99 5 6 0 99])
